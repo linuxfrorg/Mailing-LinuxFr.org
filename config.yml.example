@@ -1,0 +1,4 @@
+database: linuxfr_development
+username: root
+password: 
+encoding: utf8

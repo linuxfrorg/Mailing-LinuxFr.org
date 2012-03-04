@@ -5,12 +5,12 @@ require "yaml"
 require "bundler"
 Bundler.require :default
 
-Interval = 10
+Interval = 15
 
 tmpl = Erubis::Eruby.new File.read("mail.erb")
 
 db = Sequel.mysql2 YAML.load_file("config.yml")
-db.fetch("SELECT login, email FROM accounts WHERE role='visitor' AND old_password IS NOT NULL ORDER BY login ASC") do |row|
+db.fetch("SELECT id, login, email FROM accounts WHERE role='visitor' AND old_password IS NOT NULL ORDER BY login ASC") do |row|
   mail = Mail.new do
     from     'team@linuxfr.org'
     to       row[:email]
@@ -18,8 +18,8 @@ db.fetch("SELECT login, email FROM accounts WHERE role='visitor' AND old_passwor
     body     tmpl.result(row)
   end
   mail.delivery_method :sendmail
-  #mail.deliver
-  puts "✔ #{row[:email]}"
+  mail.deliver
+  puts "✔ #{row[:id]}. #{row[:login]} <#{row[:email]}>"
   sleep Interval
 end
 

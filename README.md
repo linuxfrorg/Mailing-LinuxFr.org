@@ -8,7 +8,7 @@ Cf http://linuxfr.org/suivi/suppression-des-anciens-mots-de-passe-et-nettoyage-d
 
 Mode d'emploi (à faire dans un screen) :
 
-    bundle install
+    bundle install --deployment
     cp config.yml.example config.yml && vim config.yml
     bundle exec ./mailing.rb
 
